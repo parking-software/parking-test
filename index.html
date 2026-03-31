@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parking Software</title>
+    <meta
+      name="description"
+      content="Open source multi-tenant parking management — reservations, occupancy, and reporting."
+    />
+    <style>
+      :root {
+        --bg: #0f1419;
+        --surface: #1a2332;
+        --text: #e8eef5;
+        --muted: #8b9cb3;
+        --accent: #3b82f6;
+        --accent-hover: #2563eb;
+        --border: #2d3a4d;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 4rem;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-size: clamp(1.75rem, 5vw, 2.25rem);
+        font-weight: 700;
+        margin: 0 0 1rem;
+        letter-spacing: -0.02em;
+      }
+      .lead {
+        font-size: 1.125rem;
+        color: var(--muted);
+        margin: 0 0 2rem;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .card h2 {
+        font-size: 1rem;
+        margin: 0 0 0.75rem;
+        color: var(--text);
+      }
+      .card ul {
+        margin: 0;
+        padding-left: 1.25rem;
+        color: var(--muted);
+      }
+      .card li {
+        margin-bottom: 0.35rem;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 2rem;
+      }
+      a.btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.65rem 1.25rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background 0.15s ease;
+      }
+      a.btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      a.btn-primary:hover {
+        background: var(--accent-hover);
+      }
+      a.btn-ghost {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      a.btn-ghost:hover {
+        background: var(--surface);
+      }
+      footer {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+      footer a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <span class="badge">Open source</span>
+      <h1>Parking Software</h1>
+      <p class="lead">
+        Multi-tenant parking management for hotels and venues — track spots, guest reservations,
+        and revenue in one place.
+      </p>
+
+      <div class="card">
+        <h2>What it covers</h2>
+        <ul>
+          <li>Role-based access (super admin, admin, front desk)</li>
+          <li>Parking inventory and reservation lifecycle</li>
+          <li>Reporting and tenant-aware configuration</li>
+        </ul>
+      </div>
+
+      <div class="actions">
+        <!-- Replace href with your repository URL after publishing -->
+        <a class="btn btn-primary" href="https://github.com/YOUR_ORG/parking-software">View on GitHub</a>
+        <a class="btn btn-ghost" href="https://github.com/YOUR_ORG/parking-software/blob/main/README.md">Readme</a>
+      </div>
+
+      <footer>
+        <p>
+          This site is hosted with
+          <a href="https://pages.github.com/">GitHub Pages</a> from the <code>docs/</code> folder.
+          Update the links above to match your repo path.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
