@@ -1,158 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Parking Software</title>
-    <meta
-      name="description"
-      content="Open source multi-tenant parking management — reservations, occupancy, and reporting."
-    />
-    <style>
-      :root {
-        --bg: #0f1419;
-        --surface: #1a2332;
-        --text: #e8eef5;
-        --muted: #8b9cb3;
-        --accent: #3b82f6;
-        --accent-hover: #2563eb;
-        --border: #2d3a4d;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.6;
-      }
-      .wrap {
-        max-width: 40rem;
-        margin: 0 auto;
-        padding: 3rem 1.5rem 4rem;
-      }
-      .badge {
-        display: inline-block;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 1rem;
-      }
-      h1 {
-        font-size: clamp(1.75rem, 5vw, 2.25rem);
-        font-weight: 700;
-        margin: 0 0 1rem;
-        letter-spacing: -0.02em;
-      }
-      .lead {
-        font-size: 1.125rem;
-        color: var(--muted);
-        margin: 0 0 2rem;
-      }
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      .card h2 {
-        font-size: 1rem;
-        margin: 0 0 0.75rem;
-        color: var(--text);
-      }
-      .card ul {
-        margin: 0;
-        padding-left: 1.25rem;
-        color: var(--muted);
-      }
-      .card li {
-        margin-bottom: 0.35rem;
-      }
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        margin-top: 2rem;
-      }
-      a.btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.65rem 1.25rem;
-        font-size: 0.9375rem;
-        font-weight: 600;
-        text-decoration: none;
-        border-radius: 8px;
-        transition: background 0.15s ease;
-      }
-      a.btn-primary {
-        background: var(--accent);
-        color: #fff;
-      }
-      a.btn-primary:hover {
-        background: var(--accent-hover);
-      }
-      a.btn-ghost {
-        background: transparent;
-        color: var(--text);
-        border: 1px solid var(--border);
-      }
-      a.btn-ghost:hover {
-        background: var(--surface);
-      }
-      footer {
-        margin-top: 3rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid var(--border);
-        font-size: 0.875rem;
-        color: var(--muted);
-      }
-      footer a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-      footer a:hover {
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <span class="badge">Open source</span>
-      <h1>Parking Software</h1>
-      <p class="lead">
-        Multi-tenant parking management for hotels and venues — track spots, guest reservations,
-        and revenue in one place.
-      </p>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ParkDesk — Smart Parking Management</title>
+<meta name="description" content="Effortlessly manage your parking spots with real-time tracking, automated billing, and intelligent guest management.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--card:#141b24;--fg:#f5f0e8;--muted:#6b7280;--border:#1e2a3a;
+  --gold:#d4a843;--gold-light:#e0c078;--gold-dark:#a67c20;
+  --spot-avail:#22c55e;--spot-occ:#ef4444;--spot-res:#eab308;--spot-oos:#6b7280;
+}
+body{background:var(--bg);color:var(--fg);font-family:'DM Sans',sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}
 
-      <div class="card">
-        <h2>What it covers</h2>
-        <ul>
-          <li>Role-based access (super admin, admin, front desk)</li>
-          <li>Parking inventory and reservation lifecycle</li>
-          <li>Reporting and tenant-aware configuration</li>
-        </ul>
-      </div>
+/* Navbar */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(13,17,23,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.navbar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:1rem}
+.logo{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:1.1rem}
+.logo svg{width:24px;height:24px;color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:.875rem;color:var(--muted);transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));padding:.5rem 1.25rem;border-radius:.5rem;font-weight:600;font-size:.875rem;color:var(--bg);border:none;cursor:pointer;transition:transform .2s;box-shadow:0 4px 30px -4px rgba(212,168,67,.2)}
+.btn-gold:hover{transform:scale(1.05)}
+.btn-outline{border:1px solid rgba(212,168,67,.3);padding:.6rem 1.5rem;border-radius:.5rem;font-weight:500;color:var(--gold);background:transparent;cursor:pointer;transition:background .2s}
+.btn-outline:hover{background:rgba(212,168,67,.1)}
+.hamburger{display:none;background:none;border:none;color:var(--fg);cursor:pointer}
+@media(max-width:768px){
+  .nav-links{display:none}.hamburger{display:block}
+}
 
-      <div class="actions">
-        <!-- Replace href with your repository URL after publishing -->
-        <a class="btn btn-primary" href="https://github.com/YOUR_ORG/parking-software">View on GitHub</a>
-        <a class="btn btn-ghost" href="https://github.com/YOUR_ORG/parking-software/blob/main/README.md">Readme</a>
-      </div>
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 1rem 4rem;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:rgba(212,168,67,.05);filter:blur(120px);pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto}
+.hero-badge{display:inline-block;padding:.375rem 1rem;border-radius:9999px;border:1px solid rgba(212,168,67,.3);color:var(--gold);font-size:.875rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2rem}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem}
+.text-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--muted);font-size:1.125rem;max-width:600px;margin:0 auto 3rem}
+.hero-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-bottom:4rem}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:700px;margin:0 auto}
+@media(max-width:640px){.stats-grid{grid-template-columns:1fr}}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;display:flex;align-items:center;gap:1rem;box-shadow:0 8px 32px -8px rgba(0,0,0,.4)}
+.stat-icon{width:48px;height:48px;border-radius:.5rem;background:rgba(212,168,67,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stat-icon svg{width:24px;height:24px;color:var(--gold)}
+.stat-card .value{font-size:1.5rem;font-weight:700}
+.stat-card .label{font-size:.875rem;color:var(--muted)}
 
-      <footer>
-        <p>
-          This site is hosted with
-          <a href="https://pages.github.com/">GitHub Pages</a> from the <code>docs/</code> folder.
-          Update the links above to match your repo path.
-        </p>
-      </footer>
+/* Section common */
+section{padding:6rem 1rem}
+.section-title{text-align:center;margin-bottom:4rem}
+.section-title h2{font-size:clamp(2rem,4vw,3rem);font-weight:700;margin-bottom:1rem}
+.section-title p{color:var(--muted);font-size:1.125rem;max-width:560px;margin:0 auto}
+
+/* Parking Grid */
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;margin-bottom:2.5rem}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:var(--muted)}
+.legend-dot{width:12px;height:12px;border-radius:50%}
+.parking-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.75rem;max-width:800px;margin:0 auto}
+@media(max-width:640px){.parking-grid{grid-template-columns:repeat(5,1fr)}}
+.spot{border-radius:.5rem;border:1px solid;padding:.75rem;text-align:center;cursor:pointer;transition:transform .2s}
+.spot:hover{transform:scale(1.05)}
+.spot .spot-id{font-weight:700;font-size:1.1rem}
+.spot .spot-guest{font-size:10px;margin-top:4px;opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spot-available{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:var(--spot-avail)}
+.spot-occupied{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:var(--spot-occ)}
+.spot-reserved{background:rgba(234,179,8,.12);border-color:rgba(234,179,8,.3);color:var(--spot-res)}
+.spot-oos{background:rgba(107,114,128,.12);border-color:rgba(107,114,128,.3);color:var(--spot-oos)}
+
+/* Features */
+.features-bg{background:rgba(20,27,36,.5)}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1100px;margin:0 auto}
+@media(max-width:1024px){.features-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.features-grid{grid-template-columns:1fr}}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;box-shadow:0 8px 32px -8px rgba(0,0,0,.4);transition:border-color .2s}
+.feature-card:hover{border-color:rgba(212,168,67,.3)}
+.feature-icon{width:48px;height:48px;border-radius:.5rem;background:rgba(212,168,67,.1);display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+.feature-icon svg{width:24px;height:24px;color:var(--gold)}
+.feature-card h3{font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+.feature-card p{font-size:.875rem;color:var(--muted);line-height:1.6}
+
+/* Roles */
+.roles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;max-width:900px;margin:0 auto}
+@media(max-width:768px){.roles-grid{grid-template-columns:1fr}}
+.role-card{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:2rem;box-shadow:0 8px 32px -8px rgba(0,0,0,.4)}
+.role-icon{width:56px;height:56px;border-radius:.75rem;background:rgba(212,168,67,.1);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem}
+.role-icon svg{width:28px;height:28px;color:var(--gold)}
+.role-card h3{font-size:1.5rem;font-weight:700;margin-bottom:1rem}
+.role-card ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.role-card li{display:flex;align-items:flex-start;gap:.75rem;color:var(--muted)}
+.role-card li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:8px;flex-shrink:0}
+
+/* Footer */
+.footer{border-top:1px solid var(--border);padding:3rem 1rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer p{font-size:.875rem;color:var(--muted)}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeUp .6s ease forwards;opacity:0}
+.delay-1{animation-delay:.15s}.delay-2{animation-delay:.3s}.delay-3{animation-delay:.45s}.delay-4{animation-delay:.6s}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="#" class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-2-2.2-3.3C13 5.6 12 5 11 5H5c-.6 0-1.1.2-1.4.6L1.3 8.5c-.2.3-.3.7-.3 1V16c0 .6.4 1 1 1h1"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+      ParkDesk
+    </a>
+    <div class="nav-links">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#features">Features</a>
+      <a href="#roles">Roles</a>
+      <a 
+        href="https://github.com/parking-software/parking-test" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="btn-gold"
+      >
+        Get Started
+      </a>
     </div>
-  </body>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'">☰</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <span class="hero-badge animate-in">Parking Management</span>
+    <h1 class="animate-in delay-1">Smart <span class="text-gold">Parking</span><br>Management</h1>
+    <p class="animate-in delay-2">Effortlessly manage your parking spots with real-time tracking, automated billing, and intelligent guest management.</p>
+    <div class="hero-buttons animate-in delay-3">
+      <a 
+        href="https://github.com/parking-software/parking-test" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="btn-gold"
+      >
+        Get Started
+      </a>
+      <button class="btn-outline">View Demo</button>
+    </div>
+    <div class="stats-grid animate-in delay-4">
+      <div class="stat-card">
+        <div class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-2-2.2-3.3C13 5.6 12 5 11 5H5c-.6 0-1.1.2-1.4.6L1.3 8.5c-.2.3-.3.7-.3 1V16c0 .6.4 1 1 1h1"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></div>
+        <div><div class="value">Real-Time</div><div class="label">Spot Tracking</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="value">Secure</div><div class="label">Access Control</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+        <div><div class="value">Dashboard</div><div class="label">Analytics</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Parking Grid -->
+<section id="dashboard">
+  <div class="section-title">
+    <h2>Real-Time <span class="text-gold">Dashboard</span></h2>
+    <p>Monitor all spots at a glance with color-coded status indicators</p>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--spot-avail)"></span>Available</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--spot-occ)"></span>Occupied</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--spot-res)"></span>Reserved</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--spot-oos)"></span>Out of Service</div>
+  </div>
+  <div class="parking-grid" id="spotGrid"></div>
+</section>
+
+<!-- Features -->
+<section id="features" class="features-bg">
+  <div class="section-title">
+    <h2>Powerful <span class="text-gold">Features</span></h2>
+    <p>Everything you need to run a seamless parking operation</p>
+  </div>
+  <div class="features-grid" id="featuresGrid"></div>
+</section>
+
+<!-- Roles -->
+<section id="roles">
+  <div class="section-title">
+    <h2>User <span class="text-gold">Roles</span></h2>
+    <p>Tailored access for every team member</p>
+  </div>
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <h3>Front Desk Staff</h3>
+      <ul>
+        <li>Create & edit parking reservations</li>
+        <li>Assign and free parking spots</li>
+        <li>Check guests in and out</li>
+        <li>Print or email parking permits</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <h3>Managers & Admin</h3>
+      <ul>
+        <li>All front desk capabilities</li>
+        <li>Adjust pricing and system settings</li>
+        <li>Access full reporting suite</li>
+        <li>Manage staff users and roles</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-2-2.2-3.3C13 5.6 12 5 11 5H5c-.6 0-1.1.2-1.4.6L1.3 8.5c-.2.3-.3.7-.3 1V16c0 .6.4 1 1 1h1"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+      ParkDesk
+    </div>
+    <p>&copy; 2026 ParkDesk Parking Management System. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// Generate parking spots
+const statuses=['available','occupied','reserved','oos'];
+const guests=['J. Smith','M. Chen','A. Garcia','R. Patel','K. Wilson'];
+const grid=document.getElementById('spotGrid');
+for(let i=1;i<=35;i++){
+  const r=Math.random();
+  const s=r<.35?'available':r<.7?'occupied':r<.9?'reserved':'oos';
+  const d=document.createElement('div');
+  d.className='spot spot-'+s;
+  d.innerHTML='<div class="spot-id">P'+i+'</div>'+(s==='occupied'?'<div class="spot-guest">'+guests[i%5]+'</div>':'');
+  grid.appendChild(d);
+}
+
+// Generate feature cards
+const features=[
+  {t:'Reservation Management',d:'Create, modify, extend, or cancel parking reservations with full guest and vehicle details.',icon:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 16 2 2 4-4"/>'},
+  {t:'Vehicle Tracking',d:'Record make, model, color, and license plate for every parked vehicle.',icon:'<path d="M14 16H9m5.5-4A2.5 2.5 0 0 0 12 9.5V5"/><rect x="2" y="10" width="20" height="8" rx="2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>'},
+  {t:'Automated Billing',d:'Auto-calculate charges based on duration with prorated hours or flat daily rates.',icon:'<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>'},
+  {t:'Parking Permits',d:'Generate printable permits with spot number, guest info, valid dates, and optional QR code.',icon:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h.01M7 12h.01M12 7h.01M12 12h.01M17 7h.01M17 12h.01M7 17h.01M12 17h.01M17 17h.01"/>'},
+  {t:'Reports & Analytics',d:'Daily, weekly, and monthly revenue reports with occupancy percentages and usage stats.',icon:'<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>'},
+  {t:'Export Options',d:'Download reports in PDF, Excel, or CSV formats for seamless integration with your PMS.',icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>'},
+  {t:'Role-Based Access',d:'Separate front desk and manager roles with appropriate permission levels.',icon:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'},
+  {t:'Smart Alerts',d:'Automated email and SMS notifications for reservations, check-outs, and overbooking prevention.',icon:'<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>'}
+];
+const fg=document.getElementById('featuresGrid');
+features.forEach(f=>{
+  const c=document.createElement('div');
+  c.className='feature-card';
+  c.innerHTML='<div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+f.icon+'</svg></div><h3>'+f.t+'</h3><p>'+f.d+'</p>';
+  fg.appendChild(c);
+});
+</script>
+</body>
 </html>
